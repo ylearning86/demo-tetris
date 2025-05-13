@@ -1,0 +1,195 @@
+body {
+    /* display: flex; */ /* スタート画面表示のため一旦解除 */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    font-family: sans-serif;
+}
+
+#startScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* 画面全体の高さを使う */
+    text-align: center;
+}
+
+#difficultySelection {
+    margin: 20px 0;
+}
+
+#difficultySelection p {
+    margin-bottom: 10px;
+}
+
+.difficultyButton {
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #eee;
+}
+
+.difficultyButton.selected { /* 選択されたボタンのスタイル */
+    background-color: #a0a0ff;
+    border-color: #5050cc;
+    font-weight: bold;
+}
+
+#startButton {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+#startButton:disabled { /* 無効状態のスタイル */
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#gameContainer {
+    /* display: none; はHTML側で設定済み */
+    display: flex; /* ゲーム開始時にflexに戻す */
+    flex-direction: column;
+    align-items: center;
+}
+
+#gameInfo { /* スコアとレベル表示エリア */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 10px;
+}
+
+#scoreDisplay, #levelDisplay {
+    /* margin-bottom: 10px; */ /* 個別のmarginは不要に */
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline-block; /* 横並びにする */
+    margin: 0 10px; /* 左右に少し余白 */
+}
+
+#gameArea { /* ゲームキャンバスとNEXT表示を囲むdiv */
+    display: flex; /* 横並びにする */
+    align-items: flex-start; /* 上端揃え */
+    position: relative; /* ゲームオーバー画面の基準位置にする */
+}
+
+canvas#gameCanvas { /* IDを明示的に指定 */
+    border: 1px solid black;
+    background-color: #f0f0f0;
+    /* margin-right: 20px; */ /* 右側の余白は #nextBlockArea で調整 */
+}
+
+#nextBlockArea { /* NEXTとHOLD表示エリア */
+    margin-left: 20px; /* 左側に余白 */
+    text-align: center;
+}
+
+#nextBlockArea p {
+    margin: 10px 0 5px 0; /* 上下の余白調整 (HOLDとNEXTの間も) */
+    font-weight: bold;
+}
+
+canvas#nextCanvas, canvas#holdCanvas { /* セレクタをまとめる */
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+}
+
+#gameOverScreen {
+    position: absolute; /* #gameArea を基準に絶対配置 */
+    top: 0;
+    left: 0;
+    width: 100%; /* #gameArea 全体を覆う */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* 半透明の黒背景 */
+    color: white;
+    display: none; /* デフォルトでは非表示 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10; /* キャンバスより手前に表示 */
+}
+
+#gameOverScreen.visible {
+    display: flex; /* 表示するときは flex に */
+}
+
+#gameOverScreen h2 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: red;
+}
+
+#gameOverScreen p {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+#backToStartButton { /* 新しいボタンのスタイル */
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+#startScreen button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+#startScreen button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#startScreen button:not(:disabled):hover {
+    background-color: #45a049;
+}
+
+/* デモボタンのスタイル調整 (任意) */
+#demoButton {
+    background-color: #2196F3; /* 少し違う色に */
+}
+
+#demoButton:hover {
+    background-color: #1e88e5;
+}
+
+.difficulty-selector {
+    margin-bottom: 20px;
+}
+
+.difficultyButton {
+    margin: 0 5px;
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #ddd;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.difficultyButton.selected {
+    background-color: #a5d6a7; /* 緑系の選択色 */
+    border-color: #4CAF50;
+    font-weight: bold;
+}
+
+.difficultyButton:not(.selected):hover {
+    background-color: #ccc;
+}
+
+.controls-info {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #555;
+    line-height: 1.4;
+}
