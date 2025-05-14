@@ -20,6 +20,15 @@ const finalScoreElement = document.getElementById('finalScore'); // gameContaine
 const finalLevelElement = document.getElementById('finalLevel'); // gameContainer内に移動
 const backToStartButton = document.getElementById('backToStartButton'); // 新しいボタン
 
+// タッチコントロール用のボタン要素を取得
+const touchLeftButton = document.getElementById('touchLeft');
+const touchRightButton = document.getElementById('touchRight');
+const touchRotateButton = document.getElementById('touchRotate');
+const touchDownButton = document.getElementById('touchDown');
+const touchDropButton = document.getElementById('touchDrop');
+const touchHoldButton = document.getElementById('touchHold');
+const touchControls = document.getElementById('touchControls'); // タッチコントロール全体のコンテナ
+
 // --- Audio ---
 // サウンドファイルを読み込む (audioフォルダにあると仮定)
 const sounds = {
@@ -303,6 +312,16 @@ function showGameOverScreen() {
     finalLevelElement.textContent = `レベル: ${level}`; // 最終レベル表示
     gameOverScreen.classList.add('visible'); // 画面を表示
     playSound('gameover'); // ゲームオーバー音
+    if (touchControls) touchControls.style.display = 'none'; // ゲームオーバー画面ではタッチコントロールを非表示
+    // キーボードイベントリスナーを削除
+    document.removeEventListener('keydown', handleKeyPress);
+    // タッチイベントリスナーを削除
+    if (touchLeftButton) touchLeftButton.removeEventListener('touchstart', handleTouchLeft);
+    if (touchRightButton) touchRightButton.removeEventListener('touchstart', handleTouchRight);
+    if (touchRotateButton) touchRotateButton.removeEventListener('touchstart', handleTouchRotate);
+    if (touchDownButton) touchDownButton.removeEventListener('touchstart', handleTouchDown);
+    if (touchDropButton) touchDropButton.removeEventListener('touchstart', handleTouchDrop);
+    if (touchHoldButton) touchHoldButton.removeEventListener('touchstart', handleTouchHold);
 }
 
 // ゲームオーバー画面を隠す
@@ -650,6 +669,99 @@ backToStartButton.addEventListener('click', () => {
     // デモモード関連のリセット
     isDemoMode = false;
     stopDemoAI(); // デモAIインターバルを停止
+});
+
+// タッチイベントハンドラ
+function handleTouchLeft(event) {
+    event.preventDefault(); // デフォルトのタッチイベント（スクロールなど）を無効化
+    if (!isGameOver && !isPaused) {
+        moveLeft();
+    }
+}
+
+function handleTouchRight(event) {
+    event.preventDefault();
+    if (!isGameOver && !isPaused) {
+        moveRight();
+    }
+}
+
+function handleTouchRotate(event) {
+    event.preventDefault();
+    if (!isGameOver && !isPaused) {
+        rotate();
+    }
+}
+
+function handleTouchDown(event) {
+    event.preventDefault();
+    if (!isGameOver && !isPaused) {
+        moveDown();
+    }
+}
+
+function handleTouchDrop(event) {
+    event.preventDefault();
+    if (!isGameOver && !isPaused) {
+        hardDrop();
+    }
+}
+
+function handleTouchHold(event) {
+    event.preventDefault();
+    if (!isGameOver && !isPaused) {
+        holdBlock();
+    }
+}
+
+// キーボード操作
+function handleKeyPress(event) {
+    if (isGameOver || isPaused) return;
+
+    // event.key を使用する方が望ましい
+    switch (event.key) {
+        case 'ArrowLeft':
+        case 'a': // Aキーも左移動に対応
+            moveLeft();
+            break;
+        case 'ArrowRight':
+        case 'd': // Dキーも右移動に対応
+            moveRight();
+            break;
+        case 'ArrowUp':
+        case 'w': // Wキーも回転に対応
+            rotate();
+            break;
+        case 'ArrowDown':
+        case 's': // Sキーもソフトドロップに対応
+            moveDown();
+            break;
+        case ' ': // スペースキーでハードドロップ
+            hardDrop();
+            break;
+        case 'Shift': // Shiftキーでホールド
+        case 'c': // Cキーでもホールド可能に
+            holdBlock();
+            break;
+        case 'Escape': // Escapeキーでポーズ/再開
+             togglePause();
+            break;
+    }
+}
+
+// 初期化処理の変更
+// window.onload = startGame; // これを削除またはコメントアウト
+window.onload = showStartScreen; // 最初にスタート画面を表示
+
+// 画面リサイズ時のタッチコントロール表示制御
+window.addEventListener('resize', () => {
+    if (gameContainer.style.display === 'flex' && !isGameOver && !isPaused) {
+        if (window.innerWidth <= 600) {
+            if (touchControls) touchControls.style.display = 'grid';
+        } else {
+            if (touchControls) touchControls.style.display = 'none';
+        }
+    }
 });
 
 // --- ゲーム開始 ---

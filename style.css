@@ -193,3 +193,129 @@ canvas#nextCanvas, canvas#holdCanvas { /* セレクタをまとめる */
     color: #555;
     line-height: 1.4;
 }
+
+/* スマートフォン向けのスタイル */
+@media (max-width: 600px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 中央揃え */
+        justify-content: center; /* 中央揃え */
+        height: auto; /* 高さを自動調整 */
+        padding-top: 10px; /* 上部に余白を追加 */
+    }
+
+    #gameContainer {
+        flex-direction: column; /* ゲームコンテナ内の要素を縦並びに */
+        align-items: center; /* 中央揃え */
+        width: 100%;
+    }
+
+    #gameArea {
+        flex-direction: column; /* ゲームエリア内の要素も縦並びに */
+        align-items: center; /* 中央揃え */
+        width: 100%;
+    }
+
+    #gameCanvas {
+        width: 80vw; /* 画面幅の80% */
+        height: 160vw; /* アスペクト比を保つ */
+        max-width: 300px; /* 最大幅は維持 */
+        max-height: 600px; /* 最大高さは維持 */
+        margin-bottom: 10px; /* 下に余白 */
+    }
+
+    #nextBlockArea {
+        flex-direction: row; /* 次のブロックとホールドを横並びに */
+        justify-content: space-around; /* 均等配置 */
+        width: 80vw; /* Canvasの幅に合わせる */
+        max-width: 300px;
+        margin-bottom: 10px;
+    }
+
+    #nextBlockArea p {
+        font-size: 0.8em;
+    }
+
+    #holdCanvas,
+    #nextCanvas {
+        width: 20vw; /* 小さく表示 */
+        height: 20vw;
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    #gameInfo {
+        flex-direction: row; /* スコアとレベルを横並びに */
+        justify-content: space-around; /* 均等配置 */
+        width: 80vw;
+        max-width: 300px;
+        margin-bottom: 10px;
+    }
+
+    .touch-controls {
+        display: grid; /* グリッドレイアウトに変更 */
+        grid-template-columns: repeat(3, 1fr); /* 3列 */
+        grid-template-rows: repeat(2, 1fr);    /* 2行 */
+        gap: 10px; /* ボタン間の隙間 */
+        width: 80vw; /* 画面幅の80% */
+        max-width: 300px; /* 最大幅 */
+        margin-top: 15px;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.1); /* 少し背景色をつける */
+        border-radius: 10px;
+    }
+
+    .touch-controls button {
+        padding: 15px 10px;
+        font-size: 1.2em; /* 文字サイズを少し大きく */
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        touch-action: manipulation; /* ダブルタップズームを無効化 */
+    }
+
+    .touch-controls button:active {
+        background-color: #45a049;
+    }
+
+    /* 特定のボタンをグリッドの特定の位置に配置 */
+    #touchLeft {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+    }
+    #touchRight {
+        grid-column: 3 / 4;
+        grid-row: 2 / 3;
+    }
+    #touchRotate {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
+    #touchDown {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+    #touchDrop {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+    }
+    #touchHold {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+
+    /* PCではタッチコントロールを非表示 */
+    @media (min-width: 601px) {
+        .touch-controls {
+            display: none;
+        }
+    }
+}
+
+/* タッチコントロールのデフォルトスタイル (最初は非表示) */
+.touch-controls {
+    display: none; /* デフォルトでは非表示 */
+}
