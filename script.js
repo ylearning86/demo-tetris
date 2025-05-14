@@ -1,3 +1,5 @@
+const gameVersion = "20250514.1"; // ゲームのバージョン
+
 // script.js
 
 const canvas = document.getElementById('gameCanvas');
@@ -19,6 +21,7 @@ const gameOverScreen = document.getElementById('gameOverScreen'); // gameContain
 const finalScoreElement = document.getElementById('finalScore'); // gameContainer内に移動
 const finalLevelElement = document.getElementById('finalLevel'); // gameContainer内に移動
 const backToStartButton = document.getElementById('backToStartButton'); // 新しいボタン
+const versionDisplay = document.getElementById('versionDisplay'); // バージョン表示用
 
 // タッチコントロール用のボタン要素を取得
 const touchLeftButton = document.getElementById('touchLeft');
@@ -750,8 +753,12 @@ function handleKeyPress(event) {
 }
 
 // 初期化処理の変更
-// window.onload = startGame; // これを削除またはコメントアウト
-window.onload = showStartScreen; // 最初にスタート画面を表示
+window.onload = () => {
+    showStartScreen();
+    if (versionDisplay) {
+        versionDisplay.textContent = `v${gameVersion}`;
+    }
+};
 
 // 画面リサイズ時のタッチコントロール表示制御
 window.addEventListener('resize', () => {

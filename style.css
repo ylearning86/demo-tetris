@@ -319,3 +319,13 @@ canvas#nextCanvas, canvas#holdCanvas { /* セレクタをまとめる */
 .touch-controls {
     display: none; /* デフォルトでは非表示 */
 }
+
+/* バージョン表示のスタイル */
+.version-display {
+    position: fixed;
+    bottom: 5px;
+    right: 10px;
+    font-size: 0.8em;
+    color: #ccc;
+    z-index: 1000; /* 他の要素より手前に表示 */
+}
